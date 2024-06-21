@@ -10,8 +10,17 @@ vim.cmd([[
     call plug#end()
 ]])
 
+vim.cmd([[
+
+nnoremap zz :wall<cr>
+nnoremap gs :Neotree reveal<cr>
+
+]])
+
 vim.keymap.set("n", "<S-C>", ":Bdelete<CR>")
 vim.keymap.set("n", "<\\>", ":Neotree<CR>")
+
+vim.keymap.set("v", "<S->", ":Neotree reveal<CR>")
 
 vim.g.markdown_fenced_languages = {
   "ts=typescript",
@@ -57,6 +66,15 @@ neo_tree.setup({
       hide_by_name = {
         "node_modules",
       },
+    },
+  },
+})
+
+require("telescope").setup({
+  defaults = {
+    file_ignore_patterns = {
+      "node_modules",
+      "target",
     },
   },
 })
