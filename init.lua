@@ -14,6 +14,7 @@ vim.cmd([[
 
 nnoremap zz :wall<cr>
 nnoremap gs :Neotree reveal<cr>
+nnoremap tt :Telescope<cr>
 
 ]])
 
@@ -77,4 +78,8 @@ require("telescope").setup({
       "target",
     },
   },
+})
+
+require("copilot").setup({
+  suggestion_interval = 2000,
 })
