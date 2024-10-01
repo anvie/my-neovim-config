@@ -27,6 +27,9 @@ vim.keymap.set("n", "<leader>a", ":lua vim.lsp.buf.definition()<CR>")
 vim.keymap.set("n", "<leader>v", ":vsplit | lua vim.lsp.buf.definition()<CR>")
 vim.keymap.set("n", "<leader>s", ":belowright split | lua vim.lsp.buf.definition()<CR>")
 
+-- Close buffer on the right with <leader>q
+vim.keymap.set("n", "<leader>q", ":BufferLineCloseRight<CR>")
+
 -- To appropriately highlight codefences for Deno js and ts files.
 vim.g.markdown_fenced_languages = {
   "ts=typescript",
@@ -48,17 +51,14 @@ nvim_lsp.denols.setup({
             ["https://deno.land"] = true,
           },
         },
+        autoImports = true,
+        paths = true,
       },
+      lint = true,
     },
   },
   capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()),
   code_action_handler = true,
-})
-
-nvim_lsp.vtsls.setup({
-  on_attach = ...,
-  root_dir = nvim_lsp.util.root_pattern("package.json"),
-  single_file_support = false,
 })
 
 -- nvim_lsp.denols.setup({
@@ -83,40 +83,82 @@ nvim_lsp.vtsls.setup({
 --   },
 -- })
 
+nvim_lsp.vtsls.setup({
+  on_attach = ...,
+  file_types = { "typescript", "typescriptreact", "typescript.tsx", "javascript", "javascriptreact", "javascript.jsx" },
+  root_dir = nvim_lsp.util.root_pattern("package.json", "tsconfig.json"),
+  single_file_support = false,
+})
+
 -- nvim_lsp.ts_ls.setup({
 --   on_attach = on_attach,
 --   root_dir = nvim_lsp.util.root_pattern("package.json"),
 --   single_file_support = false,
 -- })
 
-nvim_lsp.ts_ls.setup({
-  on_attach = function(client, bufnr)
-    on_attach(client, bufnr)
-    vim.keymap.set("n", "<leader>ro", function()
-      vim.lsp.buf.execute_command({
-        command = "_typescript.organizeImports",
-        arguments = { vim.fn.expand("%:p") },
-      })
-    end, { buffer = bufnr, remap = false })
-  end,
-  root_dir = function(filename, bufnr)
-    local denoRootDir = lspconfig.util.root_pattern("deno.json", "deno.json")(filename)
-    if denoRootDir then
-      -- print('this seems to be a deno project; returning nil so that tsserver does not attach');
-      return nil
-      -- else
-      -- print('this seems to be a ts project; return root dir based on package.json')
-    end
-
-    return lspconfig.util.root_pattern("package.json")(filename)
-  end,
-  single_file_support = false,
-})
+-- nvim_lsp.ts_ls.setup({
+--   on_attach = function(client, bufnr)
+--     on_attach(client, bufnr)
+--     vim.keymap.set("n", "<leader>ro", function()
+--       vim.lsp.buf.execute_command({
+--         command = "_typescript.organizeImports",
+--         arguments = { vim.fn.expand("%:p") },
+--       })
+--     end, { buffer = bufnr, remap = false })
+--   end,
+--   root_dir = function(filename, bufnr)
+--     local denoRootDir = nvim_lsp.util.root_pattern("deno.json", "deno.json")(filename)
+--     if denoRootDir then
+--       -- print('this seems to be a deno project; returning nil so that tsserver does not attach');
+--       return nil
+--       -- else
+--       -- print('this seems to be a ts project; return root dir based on package.json')
+--     end
+--
+--     return nvim_lsp.util.root_pattern("package.json")(filename)
+--   end,
+--   single_file_support = false,
+-- })
 
 require("deno-nvim").setup({
   server = {
     on_attach = ...,
-    capabilites = ...,
+    capabilites = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+    settings = {
+      deno = {
+        codeLens = {
+          implementations = true,
+          references = true,
+          referencesAllFunctions = true,
+          test = true,
+        },
+        suggest = {
+          autoImports = true,
+          completeFunctionCalls = true,
+          names = true,
+        },
+        -- inlayHints = {
+        --   parameterNames = {
+        --     enabled = "all",
+        --   },
+        --   parameterTypes = {
+        --     enabled = true,
+        --   },
+        --   variableTypes = {
+        --     enabled = false,
+        --   },
+        --   propertyDeclarationTypes = {
+        --     enabled = true,
+        --   },
+        --   functionLikeReturnTypes = {
+        --     enabled = true,
+        --   },
+        --   enumMemberValues = {
+        --     enabled = true,
+        --   },
+        -- },
+      },
+    },
   },
   -- if you're using dap to debug (see the README for more info)
   dap = {
