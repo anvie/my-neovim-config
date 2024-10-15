@@ -15,6 +15,8 @@ vim.cmd([[
 nnoremap zz :wall<cr>
 nnoremap gs :Neotree reveal<cr>
 nnoremap tt :Telescope<cr>
+nnoremap 11 :set nospell<cr>
+nnoremap 12 :set spell<cr>
 
 ]])
 
