@@ -15,8 +15,8 @@ vim.cmd([[
 nnoremap zz :wall<cr>
 nnoremap gs :Neotree reveal<cr>
 nnoremap tt :Telescope<cr>
-nnoremap 11 :set nospell<cr>
-nnoremap 12 :set spell<cr>
+nnoremap 1n :set nospell<cr>
+nnoremap 1s :set spell<cr>
 
 ]])
 
@@ -229,3 +229,24 @@ require("copilot").setup({
 --
 -- })
 --
+
+require("render-markdown").setup({
+  enabled = false,
+  bullet = {
+    enabled = true,
+    icons = { "●", "○", "◆", "◇" },
+    left_pad = 1,
+    right_pad = 1,
+    highlight = "Normal",
+  },
+  padding = { highlight = "Normal" },
+  paragraph = {
+    -- Turn on / off paragraph rendering
+    enabled = false,
+    -- Amount of margin to add to the left of paragraphs
+    -- If a floating point value < 1 is provided it is treated as a percentage of the available window space
+    left_margin = 0,
+    -- Minimum width to use for paragraphs
+    min_width = 0,
+  },
+})
