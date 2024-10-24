@@ -63,27 +63,27 @@ nvim_lsp.denols.setup({
   code_action_handler = true,
 })
 
--- nvim_lsp.denols.setup({
---   cmd = { "deno", "lsp" },
---   on_attach = function(client, bufnr) end,
---   file_types = { "typescript", "typescriptreact", "typescript.tsx", "javascript", "javascriptreact", "javascript.jsx" },
---
---   -- on_attach = on_attach,
---   root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc"),
---
---   settings = {
---     deno = {
---       enable = true,
---       suggest = {
---         imports = {
---           hosts = {
---             ["https://deno.land"] = true,
---           },
---         },
---       },
---     },
---   },
--- })
+nvim_lsp.denols.setup({
+  cmd = { "deno", "lsp" },
+  on_attach = function(client, bufnr) end,
+  file_types = { "typescript", "typescriptreact", "typescript.tsx", "javascript", "javascriptreact", "javascript.jsx" },
+
+  -- on_attach = on_attach,
+  root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc"),
+
+  settings = {
+    deno = {
+      enable = true,
+      suggest = {
+        imports = {
+          hosts = {
+            ["https://deno.land"] = true,
+          },
+        },
+      },
+    },
+  },
+})
 
 nvim_lsp.vtsls.setup({
   on_attach = ...,
@@ -92,35 +92,35 @@ nvim_lsp.vtsls.setup({
   single_file_support = false,
 })
 
--- nvim_lsp.ts_ls.setup({
---   on_attach = on_attach,
---   root_dir = nvim_lsp.util.root_pattern("package.json"),
---   single_file_support = false,
--- })
+nvim_lsp.ts_ls.setup({
+  on_attach = on_attach,
+  root_dir = nvim_lsp.util.root_pattern("package.json"),
+  single_file_support = false,
+})
 
--- nvim_lsp.ts_ls.setup({
---   on_attach = function(client, bufnr)
---     on_attach(client, bufnr)
---     vim.keymap.set("n", "<leader>ro", function()
---       vim.lsp.buf.execute_command({
---         command = "_typescript.organizeImports",
---         arguments = { vim.fn.expand("%:p") },
---       })
---     end, { buffer = bufnr, remap = false })
---   end,
---   root_dir = function(filename, bufnr)
---     local denoRootDir = nvim_lsp.util.root_pattern("deno.json", "deno.json")(filename)
---     if denoRootDir then
---       -- print('this seems to be a deno project; returning nil so that tsserver does not attach');
---       return nil
---       -- else
---       -- print('this seems to be a ts project; return root dir based on package.json')
---     end
---
---     return nvim_lsp.util.root_pattern("package.json")(filename)
---   end,
---   single_file_support = false,
--- })
+nvim_lsp.ts_ls.setup({
+  on_attach = function(client, bufnr)
+    on_attach(client, bufnr)
+    vim.keymap.set("n", "<leader>ro", function()
+      vim.lsp.buf.execute_command({
+        command = "_typescript.organizeImports",
+        arguments = { vim.fn.expand("%:p") },
+      })
+    end, { buffer = bufnr, remap = false })
+  end,
+  root_dir = function(filename, bufnr)
+    local denoRootDir = nvim_lsp.util.root_pattern("deno.json", "deno.json")(filename)
+    if denoRootDir then
+      -- print('this seems to be a deno project; returning nil so that tsserver does not attach');
+      return nil
+      -- else
+      -- print('this seems to be a ts project; return root dir based on package.json')
+    end
+
+    return nvim_lsp.util.root_pattern("package.json")(filename)
+  end,
+  single_file_support = false,
+})
 
 require("deno-nvim").setup({
   server = {
