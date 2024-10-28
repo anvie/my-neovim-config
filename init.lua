@@ -41,7 +41,8 @@ vim.g.markdown_fenced_languages = {
 local nvim_lsp = require("lspconfig")
 nvim_lsp.denols.setup({
   cmd = { "deno", "lsp" },
-  on_attach = on_attach,
+  -- on_attach = on_attach,
+  on_attach = function(client, buffer) end,
   file_types = { "typescript", "typescriptreact", "typescript.tsx", "javascript", "javascriptreact", "javascript.jsx" },
   root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc"),
   settings = {
@@ -100,7 +101,7 @@ nvim_lsp.ts_ls.setup({
 
 nvim_lsp.ts_ls.setup({
   on_attach = function(client, bufnr)
-    on_attach(client, bufnr)
+    -- on_attach(client, bufnr)
     vim.keymap.set("n", "<leader>ro", function()
       vim.lsp.buf.execute_command({
         command = "_typescript.organizeImports",
