@@ -20,6 +20,8 @@ nnoremap 1s :set spell<cr>
 
 ]])
 
+-- vim.opt.spell = false
+
 vim.keymap.set("n", "<S-C>", ":Bdelete<CR>")
 vim.keymap.set("n", "<\\>", ":Neotree<CR>")
 
