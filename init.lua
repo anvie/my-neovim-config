@@ -17,6 +17,7 @@ nnoremap gs :Neotree reveal<cr>
 nnoremap tt :Telescope<cr>
 nnoremap 1n :set nospell<cr>
 nnoremap 1s :set spell<cr>
+nnoremap zd :call v:lua.compare_to_clipboard()<CR>
 
 ]])
 
@@ -62,7 +63,7 @@ nvim_lsp.denols.setup({
       lint = true,
     },
   },
-  capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()),
+  -- capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()),
   code_action_handler = true,
 })
 
@@ -129,7 +130,7 @@ require("deno-nvim").setup({
   server = {
     on_attach = ...,
     root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc"),
-    capabilites = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+    -- capabilites = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities()),
     settings = {
       deno = {
         codeLens = {
@@ -254,3 +255,15 @@ require("render-markdown").setup({
     min_width = 0,
   },
 })
+
+-- nvim_lsp.eslint.setup({
+--   flags = {
+--     allow_incremental_sync = false,
+--     debounce_text_changes = 1000,
+--   },
+-- })
+-- nvim_lsp.tailwindcss.setup({
+--   flags = {
+--     debounce_text_changes = 1000,
+--   },
+-- })
