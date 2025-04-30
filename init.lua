@@ -35,6 +35,10 @@ vim.keymap.set("n", "<leader>s", ":belowright split | lua vim.lsp.buf.definition
 -- Close buffer on the right with <leader>q
 vim.keymap.set("n", "<leader>q", ":BufferLineCloseRight<CR>")
 
+vim.keymap.set("n", "<C-g>", function()
+  require("telescope.builtin").live_grep({})
+end, { noremap = true, desc = "Live Grep" })
+
 -- To appropriately highlight codefences for Deno js and ts files.
 vim.g.markdown_fenced_languages = {
   "ts=typescript",
