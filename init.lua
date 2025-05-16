@@ -35,7 +35,7 @@ vim.keymap.set("n", "<leader>s", ":belowright split | lua vim.lsp.buf.definition
 -- Close buffer on the right with <leader>q
 vim.keymap.set("n", "<leader>q", ":BufferLineCloseRight<CR>")
 
-vim.keymap.set("n", "<C-g>", function()
+vim.keymap.set("n", "<C-G>", function()
   require("telescope.builtin").live_grep({})
 end, { noremap = true, desc = "Live Grep" })
 
