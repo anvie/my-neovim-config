@@ -21,6 +21,13 @@ nnoremap zd :call v:lua.compare_to_clipboard()<CR>
 
 ]])
 
+vim.cmd([[filetype plugin indent on]])
+vim.opt.autoindent = true
+vim.opt.smartindent = true
+vim.o.tabstop = 4 -- A TAB character looks like 4 spaces
+vim.o.expandtab = true -- Pressing the TAB key will insert spaces instead of a TAB character
+vim.o.softtabstop = 4 -- Number of spaces inserted instead of a TAB character
+vim.o.shiftwidth = 4 -- Number of spaces inserted when indenting
 -- vim.opt.spell = false
 
 vim.keymap.set("n", "<S-C>", ":Bdelete<CR>")
@@ -275,10 +282,13 @@ require("render-markdown").setup({
 require("conform").setup({
   formatters_by_ft = {
     markdown = { "prettier" },
-  },
-  format_on_save = {
-    timeout_ms = 500,
-    lsp_fallback = true,
+    lua = { "stylua" },
+    -- Conform will run multiple formatters sequentially
+    python = { "ruff" },
+    -- You can customize some of the format options for the filetype (:help conform.format)
+    rust = { "rustfmt", lsp_format = "fallback" },
+    -- Conform will run the first available formatter
+    javascript = { "prettierd", "prettier", stop_after_first = true },
   },
 })
 
@@ -287,5 +297,22 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",
   callback = function()
     vim.opt_local.textwidth = 80
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "python",
+  callback = function()
+    vim.opt_local.expandtab = true
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.tabstop = 4
+  end,
+})
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = "*.py",
+  callback = function()
+    vim.opt_local.expandtab = true
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.tabstop = 4
   end,
 })
