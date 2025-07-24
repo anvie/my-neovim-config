@@ -4,8 +4,8 @@ return {
     opts = {
       servers = {
         pyright = {
-          mason = false,
-          autostart = false,
+          mason = true,
+          autostart = true,
         },
       },
     },

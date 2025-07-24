@@ -46,46 +46,19 @@ vim.keymap.set("n", "<C-G>", function()
   require("telescope.builtin").live_grep({})
 end, { noremap = true, desc = "Live Grep" })
 
--- To appropriately highlight codefences for Deno js and ts files.
-vim.g.markdown_fenced_languages = {
-  "ts=typescript",
-}
-
--- Removed redundant commented-out LSP configuration for denols
-local nvim_lsp = require("lspconfig")
-nvim_lsp.denols.setup({
-  cmd = { "deno", "lsp" },
-  on_attach = on_attach,
-  -- on_attach = function(client, buffer) end,
-  file_types = { "typescript", "typescriptreact", "typescript.tsx", "javascript", "javascriptreact", "javascript.jsx" },
-  root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc"),
-  settings = {
-    deno = {
-      enable = true,
-      suggest = {
-        imports = {
-          hosts = {
-            ["https://deno.land"] = true,
-          },
-        },
-        autoImports = true,
-        paths = true,
-      },
-      lint = true,
-    },
-  },
-  -- capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()),
-  code_action_handler = true,
-})
-
+-- -- To appropriately highlight codefences for Deno js and ts files.
+-- vim.g.markdown_fenced_languages = {
+--   "ts=typescript",
+-- }
+--
+-- -- Removed redundant commented-out LSP configuration for denols
+-- local nvim_lsp = require("lspconfig")
 -- nvim_lsp.denols.setup({
 --   cmd = { "deno", "lsp" },
---   on_attach = function(client, bufnr) end,
+--   on_attach = on_attach,
+--   -- on_attach = function(client, buffer) end,
 --   file_types = { "typescript", "typescriptreact", "typescript.tsx", "javascript", "javascriptreact", "javascript.jsx" },
---
---   -- on_attach = on_attach,
 --   root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc"),
---
 --   settings = {
 --     deno = {
 --       enable = true,
@@ -95,94 +68,69 @@ nvim_lsp.denols.setup({
 --             ["https://deno.land"] = true,
 --           },
 --         },
+--         autoImports = true,
+--         paths = true,
+--       },
+--       lint = true,
+--     },
+--   },
+--   -- capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()),
+--   code_action_handler = true,
+-- })
+
+-- nvim_lsp.vtsls.setup({
+--   on_attach = ...,
+--   file_types = { "typescript", "typescriptreact", "typescript.tsx", "javascript", "javascriptreact", "javascript.jsx" },
+--   root_dir = nvim_lsp.util.root_pattern("package.json", "tsconfig.json"),
+--   single_file_support = false,
+-- })
+
+-- require("deno-nvim").setup({
+--   server = {
+--     on_attach = ...,
+--     root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc"),
+--     -- capabilites = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+--     settings = {
+--       deno = {
+--         codeLens = {
+--           implementations = true,
+--           references = true,
+--           referencesAllFunctions = true,
+--           test = true,
+--         },
+--         suggest = {
+--           autoImports = true,
+--           completeFunctionCalls = true,
+--           names = true,
+--         },
+--         -- inlayHints = {
+--         --   parameterNames = {
+--         --     enabled = "all",
+--         --   },
+--         --   parameterTypes = {
+--         --     enabled = true,
+--         --   },
+--         --   variableTypes = {
+--         --     enabled = false,
+--         --   },
+--         --   propertyDeclarationTypes = {
+--         --     enabled = true,
+--         --   },
+--         --   functionLikeReturnTypes = {
+--         --     enabled = true,
+--         --   },
+--         --   enumMemberValues = {
+--         --     enabled = true,
+--         --   },
+--         -- },
 --       },
 --     },
 --   },
+--   -- if you're using dap to debug (see the README for more info)
+--   dap = {
+--     adapter = ...,
+--   },
 -- })
-
-nvim_lsp.vtsls.setup({
-  on_attach = ...,
-  file_types = { "typescript", "typescriptreact", "typescript.tsx", "javascript", "javascriptreact", "javascript.jsx" },
-  root_dir = nvim_lsp.util.root_pattern("package.json", "tsconfig.json"),
-  single_file_support = false,
-})
-
--- nvim_lsp.ts_ls.setup({
---   on_attach = on_attach,
---   root_dir = nvim_lsp.util.root_pattern("package.json"),
---   single_file_support = false,
--- })
---
--- nvim_lsp.ts_ls.setup({
---   on_attach = function(client, bufnr)
---     -- on_attach(client, bufnr)
---     vim.keymap.set("n", "<leader>ro", function()
---       vim.lsp.buf.execute_command({
---         command = "_typescript.organizeImports",
---         arguments = { vim.fn.expand("%:p") },
---       })
---     end, { buffer = bufnr, remap = false })
---   end,
---   root_dir = function(filename, bufnr)
---     local denoRootDir = nvim_lsp.util.root_pattern("deno.json", "deno.json")(filename)
---     if denoRootDir then
---       -- print('this seems to be a deno project; returning nil so that tsserver does not attach');
---       return nil
---       -- else
---       -- print('this seems to be a ts project; return root dir based on package.json')
---     end
---
---     return nvim_lsp.util.root_pattern("package.json")(filename)
---   end,
---   single_file_support = false,
--- })
-
-require("deno-nvim").setup({
-  server = {
-    on_attach = ...,
-    root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc"),
-    -- capabilites = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities()),
-    settings = {
-      deno = {
-        codeLens = {
-          implementations = true,
-          references = true,
-          referencesAllFunctions = true,
-          test = true,
-        },
-        suggest = {
-          autoImports = true,
-          completeFunctionCalls = true,
-          names = true,
-        },
-        -- inlayHints = {
-        --   parameterNames = {
-        --     enabled = "all",
-        --   },
-        --   parameterTypes = {
-        --     enabled = true,
-        --   },
-        --   variableTypes = {
-        --     enabled = false,
-        --   },
-        --   propertyDeclarationTypes = {
-        --     enabled = true,
-        --   },
-        --   functionLikeReturnTypes = {
-        --     enabled = true,
-        --   },
-        --   enumMemberValues = {
-        --     enabled = true,
-        --   },
-        -- },
-      },
-    },
-  },
-  -- if you're using dap to debug (see the README for more info)
-  dap = {
-    adapter = ...,
-  },
-})
 
 -- Configure neo-tree
 local neo_tree = require("neo-tree")
