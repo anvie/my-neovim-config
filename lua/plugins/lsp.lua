@@ -7,6 +7,9 @@ return {
           mason = true,
           autostart = true,
         },
+        jinja_lsp = {
+          filetypes = { "jinja", "html" },
+        },
       },
     },
   },

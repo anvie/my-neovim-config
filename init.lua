@@ -24,10 +24,10 @@ nnoremap zd :call v:lua.compare_to_clipboard()<CR>
 vim.cmd([[filetype plugin indent on]])
 vim.opt.autoindent = true
 vim.opt.smartindent = true
-vim.o.tabstop = 4 -- A TAB character looks like 4 spaces
-vim.o.expandtab = true -- Pressing the TAB key will insert spaces instead of a TAB character
-vim.o.softtabstop = 4 -- Number of spaces inserted instead of a TAB character
-vim.o.shiftwidth = 4 -- Number of spaces inserted when indenting
+-- vim.o.tabstop = 4 -- A TAB character looks like 4 spaces
+-- vim.o.expandtab = true -- Pressing the TAB key will insert spaces instead of a TAB character
+-- vim.o.softtabstop = 4 -- Number of spaces inserted instead of a TAB character
+-- vim.o.shiftwidth = 4 -- Number of spaces inserted when indenting
 -- vim.opt.spell = false
 
 vim.keymap.set("n", "<S-C>", ":Bdelete<CR>")
@@ -262,5 +262,12 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     vim.opt_local.expandtab = true
     vim.opt_local.shiftwidth = 4
     vim.opt_local.tabstop = 4
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "*.html" },
+  callback = function()
+    vim.bo.filetype = "jinja"
   end,
 })
