@@ -146,6 +146,9 @@ neo_tree.setup({
 
 require("telescope").setup({
   defaults = {
+    preview = {
+      treesitter = false,
+    },
     file_ignore_patterns = {
       "node_modules",
       "target",
@@ -229,7 +232,7 @@ require("render-markdown").setup({
 
 require("conform").setup({
   formatters_by_ft = {
-    markdown = { "prettier" },
+    markdown = { "prettier", "mdformat" },
     lua = { "stylua" },
     -- Conform will run multiple formatters sequentially
     python = { "ruff" },
@@ -271,3 +274,4 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     vim.bo.filetype = "jinja"
   end,
 })
+
