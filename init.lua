@@ -230,7 +230,8 @@ require("render-markdown").setup({
 --   },
 -- })
 
-require("conform").setup({
+conform = require("conform")
+conform.setup({
   formatters_by_ft = {
     markdown = { "prettier", "mdformat" },
     lua = { "stylua" },
@@ -242,6 +243,11 @@ require("conform").setup({
     javascript = { "prettierd", "prettier", stop_after_first = true },
   },
 })
+
+-- conform.formatters = {
+--   prettier = { command = "/Users/robin/.nvm/versions/node/v22.19.0/bin/prettier" },
+--   mdformat = { command = "/Users/robin/virtualenv/common/bin/mdformat", args = { "-" }, stdin = true },
+-- }
 
 -- Set textwidth for markdown
 vim.api.nvim_create_autocmd("FileType", {
@@ -274,4 +280,3 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     vim.bo.filetype = "jinja"
   end,
 })
-
